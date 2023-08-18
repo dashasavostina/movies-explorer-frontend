@@ -13,11 +13,11 @@ export default function SearchForm() {
         <button type="submit" className="search__button" />
       </div>
       <div className="search__tumb-block">
-        <label className="switch">
-          <input className="switch__input" type="checkbox" />
-          <span className="switch__slider switch__slider-round" />
+        <label className="search__switch">
+          <input className="search__switch-input" type="checkbox" />
+          <span className="search__switch-slider search__switch-slider-round" />
         </label>
-        <p className="switch__text">Короткометражки</p>
+        <p className="search__switch-text">Короткометражки</p>
       </div>
     </section>
   );
