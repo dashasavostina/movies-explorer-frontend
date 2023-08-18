@@ -114,15 +114,15 @@
   transition: 0.4s;
 }
 
-.search__switch-input:checked + .switch__slider {
+.search__switch-input:checked + .search__switch-slider {
   background-color: #2be080;
 }
 
-.search__switch-input:focus + .switch__slider {
+.search__switch-input:focus + .search__switch-slider {
   box-shadow: 0 0 1px #2be080;
 }
 
-.search__switch-input:checked + .switch__slider:before {
+.search__switch-input:checked + .search__switch-slider:before {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
