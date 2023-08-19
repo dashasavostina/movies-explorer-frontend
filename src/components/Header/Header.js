@@ -2,60 +2,65 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 export default function Header() {
   const [burger, setBurger] = useState(false);
   const location = useLocation();
+  function handleBurgerClick () {
+    setBurger(!burger);
+    burger ? enablePageScroll() : disablePageScroll();
+  }
   return location.pathname === "/movies" ||
     location.pathname === "/saved-movies" ||
     location.pathname === "/profile" ? (
     <header className={burger ? "header-logged_burger" : "header-logged"}>
-      <Link className="header__logo" to="/"></Link>
-      <div className="header__body">
+      <Link className="header-logged__logo" to="/"></Link>
+      <div className="header-logged__body">
         <div
-          className={burger ? "header__burger_active" : "header__burger"}
-          onClick={() => setBurger(!burger)}
+          className={burger ? "header-logged__burger_active" : "header-logged__burger"}
+          onClick={handleBurgerClick}
         />
-        <nav className={burger ? "header__menu_active" : "header__menu"}>
-          <ul className="header__list">
-            <li className="header__list-link">
+        <nav className={burger ? "header-logged__menu_active" : "header-logged__menu"}>
+          <ul className="header-logged__list">
+            <li className="header-logged__list-link">
               <Link
                 to="/"
-                className={burger ? "header__link" : "header__link_none"}
+                className={burger ? "header-logged__link" : "header-logged__link header-logged__link_none"}
               >
                 Главная
               </Link>
             </li>
-            <li className="header__list-link">
+            <li className="header-logged__list-link">
               <Link
                 to="/movies"
                 className={
                   location.pathname === "/movies"
-                    ? "header__link_active"
-                    : "header__link"
+                    ? "header-logged__link header-logged__link_active"
+                    : "header-logged__link"
                 }
               >
                 Фильмы
               </Link>
             </li>
-            <li className="header__list-link header__list-link_length">
+            <li className="header-logged__list-link header-logged__list-link_length">
               <Link
                 to="/saved-movies"
                 className={
                   location.pathname === "/saved-movies"
-                    ? "header__link_active"
-                    : "header__link "
+                    ? "header-logged__link_active"
+                    : "header-logged__link"
                 }
               >
                 Сохранённые фильмы
               </Link>
             </li>
           </ul>
-          <Link to="/profile" className="header__account-button" type="button">
+          <Link to="/profile" className="header-logged__account-button">
             Аккаунт
           </Link>
         </nav>
-        <div className={burger ? "header__law_active" : "header__law"}></div>
+        <div className={burger ? "header-logged__law_active" : "header-logged__law"}></div>
       </div>
     </header>
   ) : (

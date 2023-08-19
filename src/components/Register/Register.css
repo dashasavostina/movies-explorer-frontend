@@ -57,19 +57,18 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: calc(100% - 2 * 450px);
+  width: 380px;
 }
 
 @media screen and (max-width: 917px) {
   .register__form {
     padding-bottom: 0px;
-    width: calc(100% - 2 * 195px);
   }
 }
 
 @media screen and (max-width: 669px) {
   .register__form {
-    width: calc(100% - 2 * 40px);
+    width: 242px;
   }
 }
 
@@ -139,7 +138,7 @@
   margin-top: 45px;
   margin-bottom: 3px;
   padding: 0;
-  width: 395px;
+  width: 398px;
   height: 45px;
   font-weight: 400;
   border: none;

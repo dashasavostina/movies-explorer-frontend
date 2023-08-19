@@ -3,7 +3,7 @@ import "./SearchForm.css";
 export default function SearchForm() {
   return (
     <section className="search">
-      <div className="search__form">
+      <form className="search__form">
         <input
           type="search"
           autoComplete="off"
@@ -11,7 +11,7 @@ export default function SearchForm() {
           placeholder="Фильм"
         />
         <button type="submit" className="search__button" />
-      </div>
+      </form>
       <div className="search__tumb-block">
         <label className="search__switch">
           <input className="search__switch-input" type="checkbox" />
