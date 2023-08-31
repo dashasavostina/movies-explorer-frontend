@@ -22,3 +22,7 @@ https://api.diplom.dashasavostina.nomoreparties.sbs
 
 IP 158.160.20.125
 
+### Ссылка на пулл реквест
+
+https://github.com/dashasavostina/movies-explorer-frontend/pull/2
+
