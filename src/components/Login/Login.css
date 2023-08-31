@@ -113,6 +113,7 @@
   font-weight: 400;
   line-height: normal;
   padding-left: 16px;
+  position: relative;
 }
 
 .login__input:focus {
@@ -155,6 +156,31 @@
   opacity: 0.7;
 }
 
+.login__submit-button_disabled {
+  border-radius: 3px;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 136px;
+  padding: 0;
+  width: 398px;
+  height: 45px;
+  font-weight: 400;
+  border: none;
+  color: #c2c2c2;
+}
+
+@media screen and (max-width: 669px) {
+  .login__submit-button_disabled {
+    width: 260px;
+    margin-top: 221px;
+    font-size: 12px;
+    width: 260px;
+  }
+}
+
 .login__buttons {
   display: flex;
   align-items: center;
@@ -183,4 +209,35 @@
 .login__link:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.login__email-error {
+  color: #ee3465;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: -9px;
+}
+
+.login__password-error {
+  color: #ee3465;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 138px;
+  left: -9px;
+}
+
+.login__error-message {
+  min-height: 17px;
+  font-size: 14px;
+  font-weight: 500;
+  padding-top: 0px;
+  text-align: center;
+  color: #ee3465;
+  position: absolute;
+  bottom: 50px;
 }

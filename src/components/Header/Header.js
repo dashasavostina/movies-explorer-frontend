@@ -7,10 +7,12 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 export default function Header() {
   const [burger, setBurger] = useState(false);
   const location = useLocation();
-  function handleBurgerClick () {
+
+  function handleBurgerClick() {
     setBurger(!burger);
     burger ? enablePageScroll() : disablePageScroll();
   }
+
   return location.pathname === "/movies" ||
     location.pathname === "/saved-movies" ||
     location.pathname === "/profile" ? (
@@ -18,15 +20,25 @@ export default function Header() {
       <Link className="header-logged__logo" to="/"></Link>
       <div className="header-logged__body">
         <div
-          className={burger ? "header-logged__burger_active" : "header-logged__burger"}
+          className={
+            burger ? "header-logged__burger_active" : "header-logged__burger"
+          }
           onClick={handleBurgerClick}
         />
-        <nav className={burger ? "header-logged__menu_active" : "header-logged__menu"}>
+        <nav
+          className={
+            burger ? "header-logged__menu_active" : "header-logged__menu"
+          }
+        >
           <ul className="header-logged__list">
             <li className="header-logged__list-link">
               <Link
                 to="/"
-                className={burger ? "header-logged__link" : "header-logged__link header-logged__link_none"}
+                className={
+                  burger
+                    ? "header-logged__link"
+                    : "header-logged__link header-logged__link_none"
+                }
               >
                 Главная
               </Link>
@@ -60,7 +72,11 @@ export default function Header() {
             Аккаунт
           </Link>
         </nav>
-        <div className={burger ? "header-logged__law_active" : "header-logged__law"}></div>
+        <div
+          className={
+            burger ? "header-logged__law_active" : "header-logged__law"
+          }
+        ></div>
       </div>
     </header>
   ) : (

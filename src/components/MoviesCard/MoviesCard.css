@@ -14,6 +14,7 @@
   display: block;
   max-width: 339px;
   width: 100%;
+  height: 190px;
 }
 
 .card__group {
@@ -64,23 +65,26 @@
   box-shadow: 0px 3px 3px #e0dede;
 }
 
-.card__save-button:hover {
-  cursor: pointer;
+.card__save-button_liked {
   background-image: url("../../images/save-button_active.svg");
+}
+
+.card__save-button,
+.card__save-button_liked:hover {
+  cursor: pointer;
 }
 
 .card__save-button_unsave {
   background-image: url("../../images/unsave-button.svg");
   box-shadow: none;
   background-color: transparent;
-  background-repeat: no-repeat;
-  margin: 14px 12px 10px 0px;
-  border: none;
-  width: 16px;
-  height: 16px;
 }
 
 .card__save-button_unsave:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.card__link {
+  text-decoration: none;
 }
