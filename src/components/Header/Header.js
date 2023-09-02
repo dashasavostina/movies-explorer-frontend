@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
-export default function Header() {
+export default function Header({isLogged = true }) {
   const [burger, setBurger] = useState(false);
   const location = useLocation();
 
@@ -13,9 +13,7 @@ export default function Header() {
     burger ? enablePageScroll() : disablePageScroll();
   }
 
-  return location.pathname === "/movies" ||
-    location.pathname === "/saved-movies" ||
-    location.pathname === "/profile" ? (
+  return isLogged ? (
     <header className={burger ? "header-logged_burger" : "header-logged"}>
       <Link className="header-logged__logo" to="/"></Link>
       <div className="header-logged__body">

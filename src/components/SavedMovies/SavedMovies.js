@@ -1,5 +1,4 @@
 import Header from "../Header/Header";
-import MoviesCard from "../MoviesCard/MoviesCard";
 import SearchForm from "../SearchForm/SearchForm";
 import "./SavedMovies.css";
 import Footer from "../Footer/Footer";
@@ -51,6 +50,10 @@ export default function SavedMovies({ isLoading, deleteMovie }) {
     updatedMovies(values);
   }, [savedMovies]);
 
+  React.useEffect(() => {
+    localStorage.setItem("searchSavedMovies", JSON.stringify(values));
+  }, [values]);
+
   return (
     <>
       <Header />
@@ -61,14 +64,18 @@ export default function SavedMovies({ isLoading, deleteMovie }) {
         defaultValue={values}
       />
       <section className="saved-movies">
-        {isLoading ? (
-          <Preloader />
+        {movies.length > 0 ? (
+          isLoading ? (
+            <Preloader />
+          ) : (
+            <MoviesCardList
+              movies={movies}
+              isLike={true}
+              deleteMovie={deleteMovie}
+            />
+          )
         ) : (
-          <MoviesCardList
-            movies={movies}
-            isLike={true}
-            deleteMovie={deleteMovie}
-          />
+          <p className="movies__error">Ничего не найдено</p>
         )}
       </section>
       <Footer />

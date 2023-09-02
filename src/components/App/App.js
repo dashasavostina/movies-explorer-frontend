@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Main from "../Main/Main";
 import { Movies } from "../Movies/Movies";
@@ -18,13 +13,14 @@ import { apiAuth } from "../../utils/apiAuth";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { SavedMoviesContext } from "../../contexts/SavedMoviesContext";
 import { mainApi } from "../../utils/MainApi";
-import { moviesApi } from "../../utils/MoviesApi";
 import { urlServer } from "../../utils/constants";
+import Header from "../Header/Header";
 
 import {
   filterByNameMovie,
   filterMovieDuration,
 } from "../../utils/movieFilter";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
   const [isLogged, setLogged] = useState(false);
@@ -78,16 +74,8 @@ function App() {
 
   function searchMovies(values) {
     setIsLoading(true);
-    return moviesApi
-      .getMovies()
-      .then((movies) => {
-        localStorage.setItem("allMovies", JSON.stringify(movies));
-        updateMovies(values);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
+    updateMovies(values);
+    setIsLoading(false);
   }
 
   const showMessage = (text) => {
@@ -100,15 +88,23 @@ function App() {
     apiAuth
       .register(name, email, password)
       .then(() => {
-        history.push("/signin");
+        handleLogin(email, password);
       })
-      .catch(() => showMessage("При регистрации профиля произошла ошибка."));
+      .catch((err) => {
+        if (err === "Ошибка: 409")
+          showMessage("Пользователь с таким email уже существует.");
+        else if (err === "Ошибка: 400") {
+          showMessage("При регистрации пользователя возникла ошибка.");
+        } else if (err === "Ошибка: 500") {
+          showMessage("Ошибка сервера. Попробуйте позже.");
+        }
+      });
   }
 
   //логин
-  function handleLogin(password, email) {
+  function handleLogin(email, password) {
     apiAuth
-      .authorize(password, email)
+      .authorize(email, password)
       .then((res) => {
         if (res.token) {
           localStorage.setItem("token", res.token);
@@ -116,7 +112,14 @@ function App() {
           history.push("/movies");
         }
       })
-      .catch(() => showMessage("При авторизации профиля произошла ошибка."));
+      .catch((err) => {
+        if (err === "Ошибка: 401") showMessage("Неверные email или пароль");
+        else if (err === "Ошибка: 400") {
+          showMessage("При авторизации пользователя возникла ошибка.");
+        } else if (err === "Ошибка: 500") {
+          showMessage("Ошибка сервера. Попробуйте позже.");
+        }
+      });
   }
 
   // выход
@@ -141,9 +144,12 @@ function App() {
           name: userDataUpdated.name,
           email: userDataUpdated.email,
         });
-        showMessage('Профиль успешно обновлён!')
+        showMessage("Профиль успешно обновлён!");
       })
-      .catch(() => showMessage("При обновлении профиля произошла ошибка."));
+      .catch((err) => {
+        if (err.statusCode === 500)
+          showMessage("Пользователь с такими данными уже существует.");
+      });
   }
 
   // добавить фильм в сохранённые
@@ -232,14 +238,23 @@ function App() {
                 handleRegister={handleRegister}
                 message={errorMessage}
               />
+              {isLogged ? <Redirect to="/movies" /> : ""}
             </Route>
             <Route path="/signin">
               <Login handleLogin={handleLogin} message={errorMessage} />
+              {isLogged ? <Redirect to="/movies" /> : ""}
             </Route>
-            <Route path="/">
+            <Route exact path="/">
+              {isLogged ? (
+                <Header isLogged={true} />
+              ) : (
+                <Header isLogged={false} />
+              )}
               <Main />
             </Route>
-            <Route path="*"><NotFound /></Route>
+            <Route path="/*">
+              <NotFound />
+            </Route>
           </Switch>
         </div>
       </SavedMoviesContext.Provider>

@@ -7,19 +7,21 @@ import React from "react";
 import Preloader from "../Preloader/Preloader";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
-const LG_ROW_CARD_COUNT = 4;
-const MD_ROW_CARD_COUNT = 2;
-const SM_ROW_CARD_COUNT = 1;
-
-const LG_INITIAL_CARD_COUNT = 16;
-const MD_INITIAL_CARD_COUNT = 8;
-const SM_INITIAL_CARD_COUNT = 5;
+import {
+  LG_ROW_CARD_COUNT,
+  MD_INITIAL_CARD_COUNT,
+  MD_ROW_CARD_COUNT,
+  SM_ROW_CARD_COUNT,
+  LG_INITIAL_CARD_COUNT,
+  SM_INITIAL_CARD_COUNT,
+} from "../../utils/constants";
+import { moviesApi } from "../../utils/MoviesApi";
+import { filterMovieDuration } from "../../utils/movieFilter";
 
 export const Movies = ({
-  movies,
   onSearch,
   onFilter,
-  isLoading,
+
   likeMovie,
   deleteMovie,
 }) => {
@@ -30,11 +32,43 @@ export const Movies = ({
     }
   );
 
-  function searchMovies(movies) {
-    return onSearch(movies).then(() => {
-      setValues(movies);
-    });
+  const [movies, setMovies] = React.useState(
+    JSON.parse(localStorage.getItem("filteredMovies")) || []
+  );
+
+  const [isLoading, setIsLoading] = React.useState(false);
+  let allMoviesData = localStorage.getItem("allMovies");
+
+  function updatedMovies(movies) {
+    const filteredMovies =
+      JSON.parse(localStorage.getItem("filteredMovies")) || [];
+    const resultFilterMovies = movies.short
+      ? filterMovieDuration(filteredMovies)
+      : filteredMovies;
+
+    setMovies(resultFilterMovies);
   }
+
+  const submitHandler = async (movies) => {
+    try {
+      setIsLoading(true);
+
+      if (!allMoviesData) {
+        const allMovies = await moviesApi.getMovies();
+        localStorage.setItem("allMovies", JSON.stringify(allMovies));
+        allMoviesData = localStorage.getItem("allMovies");
+      }
+
+      onSearch(movies);
+      updatedMovies(movies);
+      setValues(movies);
+
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
 
   function filterMovies(value) {
     const newValues = {
@@ -44,7 +78,12 @@ export const Movies = ({
 
     onFilter(newValues);
     setValues(newValues);
+    updatedMovies(newValues);
   }
+
+  React.useEffect(() => {
+    updatedMovies(values);
+  }, [setMovies]);
 
   React.useEffect(() => {
     localStorage.setItem("searchMovies", JSON.stringify(values));
@@ -92,7 +131,7 @@ export const Movies = ({
     <>
       <Header />
       <SearchForm
-        onSearch={searchMovies}
+        onSearch={submitHandler}
         onFilter={filterMovies}
         defaultValue={values}
         isLoading={isLoading}

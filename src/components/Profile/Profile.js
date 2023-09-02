@@ -51,8 +51,8 @@ export default function Profile({ logOut, submitHandler, message }) {
               type="text"
               name="name"
               id="name-input"
-              minLength="1"
-              maxLength="40"
+              minLength="2"
+              maxLength="30"
               value={values.name || ""}
               className="profile__subtitle profile__subtitle_input"
               label="Имя"

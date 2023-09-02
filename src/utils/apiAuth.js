@@ -23,13 +23,13 @@ class ApiAuth {
     }).then(this._checkResponse);
   }
 
-  authorize(password, email) {
+  authorize(email, password) {
     return fetch(`${this._urlAuth}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ password, email }),
+      body: JSON.stringify({ email, password }),
     })
       .then(this._checkResponse)
       .then((data) => {
@@ -38,13 +38,13 @@ class ApiAuth {
       });
   }
 
-  register(email, name, password) {
+  register(name, email, password) {
     return fetch(`${this._urlAuth}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, name, password }),
+      body: JSON.stringify({ name, email, password }),
     }).then(this._checkResponse);
   }
 }

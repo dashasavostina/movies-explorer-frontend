@@ -9,7 +9,7 @@ export default function Register({ handleRegister, message }) {
 
   function handleSubmitButton(e) {
     e.preventDefault();
-    handleRegister(values.email, values.name, values.password);
+    handleRegister(values.name, values.email, values.password);
     resetForm();
   }
   return (
@@ -23,8 +23,8 @@ export default function Register({ handleRegister, message }) {
           type="text"
           name="name"
           id="name-input"
-          minLength="1"
-          maxLength="40"
+          minLength="2"
+          maxLength="30"
           value={values.name || ""}
           className="register__input"
           onChange={handleChange}

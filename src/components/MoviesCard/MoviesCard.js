@@ -3,16 +3,17 @@ import "./MoviesCard.css";
 import { urlServer } from "../../utils/constants";
 import React from "react";
 import { SavedMoviesContext } from "../../contexts/SavedMoviesContext";
+import { ZERO_DURATION, HOUR_DURATION } from "../../utils/constants";
 
 export default function MoviesCard({ movie, isLike, likeMovie, deleteMovie }) {
   const location = useLocation();
   const { savedMovies } = React.useContext(SavedMoviesContext); // Подписываемся на контекст
 
   const movieDuration = (duration) => {
-    const hours = Math.floor(duration / 60);
-    const hoursStr = hours > 0 ? `${hours}ч` : "";
-    const minutes = duration - hours * 60;
-    const minutesStr = minutes > 0 ? `${minutes}м` : "";
+    const hours = Math.floor(duration / HOUR_DURATION);
+    const hoursStr = hours > ZERO_DURATION ? `${hours}ч` : "";
+    const minutes = duration - hours * HOUR_DURATION;
+    const minutesStr = minutes > ZERO_DURATION ? `${minutes}м` : "";
     return hoursStr + minutesStr;
   };
 
@@ -39,8 +40,7 @@ export default function MoviesCard({ movie, isLike, likeMovie, deleteMovie }) {
 
   return (
     <section className="card">
-      <Link className="card__link" // to={movie.trailerLink.replace("https", "")}
-      >
+      <Link target="_blank" to={movie.trailerLink.replace("https", "")}>
         <img
           className="card__img"
           src={
@@ -49,7 +49,7 @@ export default function MoviesCard({ movie, isLike, likeMovie, deleteMovie }) {
               : `${movie.image}`
           }
           alt={movie.nameRU}
-        />
+        /></Link>
         <div className="card__subtext">
           <div className="card__group">
             <h2 className="card__title">{movie.nameRU}</h2>
@@ -75,7 +75,6 @@ export default function MoviesCard({ movie, isLike, likeMovie, deleteMovie }) {
             />
           )}
         </div>
-      </Link>
     </section>
   );
 }

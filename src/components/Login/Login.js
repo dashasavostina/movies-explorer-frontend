@@ -9,7 +9,7 @@ export default function Login({ handleLogin, message }) {
 
   function handleSubmitButton(e) {
     e.preventDefault();
-    handleLogin(values["password"], values["email"]);
+    handleLogin(values["email"], values["password"]);
     resetForm();
   }
   return (
