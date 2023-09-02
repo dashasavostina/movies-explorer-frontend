@@ -21,7 +21,6 @@ import { filterMovieDuration } from "../../utils/movieFilter";
 export const Movies = ({
   onSearch,
   onFilter,
-
   likeMovie,
   deleteMovie,
 }) => {
@@ -62,7 +61,7 @@ export const Movies = ({
       onSearch(movies);
       updatedMovies(movies);
       setValues(movies);
-
+    
       setIsLoading(false);
     } catch (e) {
       console.log(e);

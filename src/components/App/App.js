@@ -73,9 +73,7 @@ function App() {
   }, [history, isLogged]);
 
   function searchMovies(values) {
-    setIsLoading(true);
     updateMovies(values);
-    setIsLoading(false);
   }
 
   const showMessage = (text) => {
