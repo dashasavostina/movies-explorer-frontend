@@ -16,14 +16,12 @@ import {
   SM_INITIAL_CARD_COUNT,
 } from "../../utils/constants";
 import { moviesApi } from "../../utils/MoviesApi";
-import { filterMovieDuration } from "../../utils/movieFilter";
+import {
+  filterByNameMovie,
+  filterMovieDuration,
+} from "../../utils/movieFilter";
 
-export const Movies = ({
-  onSearch,
-  onFilter,
-  likeMovie,
-  deleteMovie,
-}) => {
+export const Movies = ({ likeMovie, deleteMovie }) => {
   const [values, setValues] = React.useState(
     JSON.parse(localStorage.getItem("searchMovies")) || {
       search: "",
@@ -39,8 +37,11 @@ export const Movies = ({
   let allMoviesData = localStorage.getItem("allMovies");
 
   function updatedMovies(movies) {
-    const filteredMovies =
-      JSON.parse(localStorage.getItem("filteredMovies")) || [];
+    const filteredMovies = filterByNameMovie(
+      JSON.parse(localStorage.getItem("allMovies")) || [],
+      movies.search
+    );
+
     const resultFilterMovies = movies.short
       ? filterMovieDuration(filteredMovies)
       : filteredMovies;
@@ -53,15 +54,15 @@ export const Movies = ({
       setIsLoading(true);
 
       if (!allMoviesData) {
+        setIsLoading(true);
         const allMovies = await moviesApi.getMovies();
         localStorage.setItem("allMovies", JSON.stringify(allMovies));
         allMoviesData = localStorage.getItem("allMovies");
       }
 
-      onSearch(movies);
       updatedMovies(movies);
       setValues(movies);
-    
+
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -75,7 +76,6 @@ export const Movies = ({
       short: value.short,
     };
 
-    onFilter(newValues);
     setValues(newValues);
     updatedMovies(newValues);
   }

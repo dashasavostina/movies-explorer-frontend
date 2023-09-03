@@ -15,11 +15,6 @@ import { SavedMoviesContext } from "../../contexts/SavedMoviesContext";
 import { mainApi } from "../../utils/MainApi";
 import { urlServer } from "../../utils/constants";
 import Header from "../Header/Header";
-
-import {
-  filterByNameMovie,
-  filterMovieDuration,
-} from "../../utils/movieFilter";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
@@ -32,24 +27,6 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("token");
   const location = useLocation();
-
-  function updateMovies(values) {
-    const movies = JSON.parse(localStorage.getItem("allMovies"));
-
-    let filteredMovies = filterByNameMovie(movies, values.search);
-    localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
-    filterMovies(values);
-  }
-
-  function filterMovies(movies) {
-    const filteredMovies =
-      JSON.parse(localStorage.getItem("filteredMovies")) || [];
-    const resultFilterMovies = movies.short
-      ? filterMovieDuration(filteredMovies)
-      : filteredMovies;
-
-    setCards(resultFilterMovies);
-  }
 
   React.useEffect(() => {
     const userToken = localStorage.getItem("token");
@@ -71,10 +48,6 @@ function App() {
         });
     }
   }, [history, isLogged]);
-
-  function searchMovies(values) {
-    updateMovies(values);
-  }
 
   const showMessage = (text) => {
     setErrorMessage(text);
@@ -176,13 +149,16 @@ function App() {
   }
 
   React.useEffect(() => {
+    setIsLoading(true);
     if (isLogged) {
       Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
         .then(([user, movies]) => {
           setCurrentUser(user);
           setSavedMovies(movies);
+          setIsLoading(false);
         })
         .catch((err) => console.log(`Ошибка получения данных: ${err}`));
+      setIsLoading(false);
     }
   }, [isLogged]);
 
@@ -208,9 +184,6 @@ function App() {
               component={Movies}
               isLogged={isLogged}
               movies={cards}
-              onSearch={searchMovies}
-              onFilter={filterMovies}
-              isLoading={isLoading}
               likeMovie={handleMovieLike}
               deleteMovie={deleteMovie}
             />
