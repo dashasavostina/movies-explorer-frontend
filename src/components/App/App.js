@@ -223,7 +223,7 @@ function App() {
               )}
               <Main />
             </Route>
-            <Route path="/*">
+            <Route exact path="/*">
               <NotFound />
             </Route>
           </Switch>
