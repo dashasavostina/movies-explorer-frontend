@@ -1,0 +1,25 @@
+.saved-movies {
+  padding: 0 70px 170px;
+  display: grid;
+  grid-template-columns: repeat(4, 270px);
+  row-gap: 32px;
+  column-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1216px) {
+  .saved-movies {
+    padding: 0 30px 170px;
+    grid-template-columns: repeat(auto-fit, minmax(339px, 339px));
+    column-gap: 30px;
+    row-gap: 35px;
+  }
+}
+
+@media screen and (max-width: 669px) {
+  .saved-movies {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+    row-gap: 20px;
+  }
+}
