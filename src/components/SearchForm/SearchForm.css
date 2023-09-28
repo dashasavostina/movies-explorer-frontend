@@ -166,3 +166,11 @@
     line-height: 1.63;
   }
 }
+
+.search__error {
+  color: #ff6838;
+  font-size: 14px;
+  font-weight: 500;
+  padding-top: 15px;
+  text-align: center;
+}
