@@ -139,7 +139,7 @@
 
 .about-block__photo {
   height: 327px;
-  width: 270px;
+  width: 218px;
   border-radius: 10px;
   object-fit: contain;
 }
@@ -147,14 +147,14 @@
 @media screen and (max-width: 917px) {
   .about-block__photo {
     height: 307px;
-    width: 255px;
+    width: 204px;
   }
 }
 
 @media screen and (max-width: 669px) {
   .about-block__photo {
     height: 352px;
-    width: 292px;
+    width: 235px;
   }
 }
 
