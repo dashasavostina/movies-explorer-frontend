@@ -2,8 +2,9 @@
 
 ## Стек технологий
 - React
-- NodeJS
-- express.js
+- HTML
+- CSS
+- JS
 
 ### `npm start`
 
